@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {Product} from './product';
 
@@ -7,9 +7,21 @@ import {Product} from './product';
 })
 export class ProductServiceService {
   public Products: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>(null);
+
   constructor() {
   }
-  getProducts(){
 
+  search(query: string) {
+    const value = this.Products.getValue();
+    this.Products.next(value.filter((product: Product) => {
+      return product.name.startsWith(query);
+    }));
+  }
+
+  filterByRating(min: number, max: number) {
+    const value = this.Products.getValue();
+    this.Products.next(value.filter((product: Product) => {
+      return product.rate >= min && product.rate <= max;
+    }));
   }
 }
