@@ -1,0 +1,5 @@
+<ul>
+  <li *ngFor="let product of productService.products | async">
+    <p>{{product.name}} - {{product.rate}} - {{product.price}}</p>
+  </li>
+</ul>
