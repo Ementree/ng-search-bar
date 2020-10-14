@@ -3,9 +3,10 @@ import {BehaviorSubject, combineLatest, forkJoin, Observable, of} from 'rxjs';
 import {Product} from './product';
 import {FilterSchema} from './filterSchema';
 
-export class SelectedOption{
+export class SelectedOption {
   name: string;
   value: string;
+
   constructor(name: string, value: string) {
     this.name = name;
     this.value = value;
@@ -35,13 +36,11 @@ export class ProductService {
   ];
   public searchStream: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public filters: BehaviorSubject<FilterSchema[]> = new BehaviorSubject<FilterSchema[]>(this.getFilters());
-  // public result: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>();
+
   constructor() {
   }
-  setFilters(){
-    this.filters.next(this.getFilters());
-  }
-  getFilters(): FilterSchema[]{
+
+  getFilters(): FilterSchema[] {
     const keys = ['name', 'rate', 'description', 'price'];
     return keys.map(x => {
       return {
@@ -52,11 +51,12 @@ export class ProductService {
       };
     });
   }
-  private distinct(value, index, self){
+
+  private distinct(value, index, self) {
     return self.indexOf(value) === index;
   }
 
-  filterProducts(filters: FilterSchema[]){
+  filterProducts(filters: FilterSchema[]) {
     const selectedValues = filters
       .filter(x => x.selectedOption !== '')
       .map(x => new SelectedOption(x.name, x.selectedOption));
@@ -71,14 +71,9 @@ export class ProductService {
       ));
   }
 
-
   search(query: string): Observable<Product[]> {
     this.searchStream.next(query);
     return of(this.productArr
       .filter(x => x.name.toLowerCase().startsWith(query.toLowerCase())));
-  }
-
-  aggregate() {
-// combineLatest([this.searchStream, this.filters], )
   }
 }

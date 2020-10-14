@@ -14,7 +14,6 @@ export class SearchBarComponent implements OnInit {
   }
 
   search($event) {
-    console.log($event.target.value);
     this.productService.search($event.target.value);
   }
 }

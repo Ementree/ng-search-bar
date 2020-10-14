@@ -25,27 +25,11 @@ export class ProductTableComponent implements OnInit {
   filterObs: Observable<Product[]> = this.productService.filters.pipe(
     switchMap((filters) => this.productService.filterProducts(filters)));
 
-
-  //obs$ = this.getProducts();
-
   public products$: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>(this.productService.productArr);
 
   ngOnInit(): void {
-    combineLatest([this.searchObs, this.filterObs]).subscribe(([filterResult, searchResult])=>{
+    combineLatest([this.searchObs, this.filterObs]).subscribe(([filterResult, searchResult]) => {
       this.products$.next(filterResult.filter(value => searchResult.includes(value)));
     });
   }
-
-  getProducts(): Observable<Product[]> {
-    let result: Product[] = [];
-    /*forkJoin([this.obs1, this.obs2]).subscribe(data => {
-      result = data[0].filter(x => data[1].map(y => y.id).includes(x.id));
-    });*/
-    combineLatest([this.filterObs, this.searchObs]).subscribe(([filterResult, searchResult]) => {
-      result = filterResult.filter(value => searchResult.includes(value));
-    });
-    // console.log('products', result);
-    return of(result);
-  }
-
 }

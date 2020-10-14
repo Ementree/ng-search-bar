@@ -11,7 +11,6 @@ export class FiltersComponent implements OnInit {
   constructor(public productService: ProductService) { }
 
   ngOnInit(): void {
-    //this.productService.setFilters();
   }
 
   onChange(filterKey, option){
