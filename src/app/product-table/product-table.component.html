@@ -1,5 +1,5 @@
 <ul>
-  <li *ngFor="let product of productService.products | async">
+  <li *ngFor="let product of obs$ | async">
     <p>{{product.name}} - {{product.rate}} - {{product.price}}</p>
   </li>
 </ul>

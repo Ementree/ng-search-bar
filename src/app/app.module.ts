@@ -5,12 +5,14 @@ import { AppComponent } from './app.component';
 import { ProductTableComponent } from './product-table/product-table.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import {ReactiveFormsModule} from '@angular/forms';
+import { FiltersComponent } from './filters/filters.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProductTableComponent,
-    SearchBarComponent
+    SearchBarComponent,
+    FiltersComponent
   ],
     imports: [
         BrowserModule,

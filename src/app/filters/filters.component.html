@@ -1,0 +1,9 @@
+<div *ngFor="let filter of (productService.filters | async)">
+  <label>{{filter.name}}: </label>
+  <select (change)="onChange(filter.key, $event.target.value)">
+    <option>{{getSelectedOption(filter.key)}}</option>
+    <option *ngFor="let option of filter.options">
+      {{option}}
+    </option>
+  </select>
+</div>
