@@ -1,9 +1,14 @@
-<div *ngFor="let filter of (productService.filters | async)">
-  <label class="mr-2">{{filter.name | titlecase}}: </label>
-  <select (change)="onChange(filter.key, $event.target.value)" class="">
-    <option>{{getSelectedOption(filter.key)}}</option>
-    <option *ngFor="let option of filter.options">
-      {{option}}
-    </option>
-  </select>
+<div class="p-1 mb-1">
+  <div *ngFor="let filter of (productService.filters | async)">
+    <div class="row">
+      <label class="pr-2 col-2">{{filter.name | titlecase}}:</label>
+      <select (change)="onChange(filter.key, $event.target.value)" class="custom-select col-10">
+        <option>{{getSelectedOption(filter.key)}}</option>
+        <option *ngFor="let option of filter.options">
+          {{option}}
+        </option>
+      </select>
+    </div>
+  </div>
+  <button class="btn btn-danger" (click)="resetFilters()">Reset filters</button>
 </div>

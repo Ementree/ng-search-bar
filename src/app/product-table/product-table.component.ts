@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ProductService} from '../product.service';
-import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
-import {query} from '@angular/animations';
-import {BehaviorSubject, concat, forkJoin, Observable, of} from 'rxjs';
+import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {combineLatest} from 'rxjs';
 import {Product} from '../product';
 
@@ -17,7 +16,7 @@ export class ProductTableComponent implements OnInit {
   }
 
   searchObs = this.productService.searchStream.pipe(
-    debounceTime(2),
+    debounceTime(200),
     distinctUntilChanged(),
     switchMap((searchQuery: string) => this.productService.search(searchQuery))
   );
@@ -28,7 +27,7 @@ export class ProductTableComponent implements OnInit {
   public products$: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>(this.productService.productArr);
 
   ngOnInit(): void {
-    combineLatest([this.searchObs, this.filterObs]).subscribe(([filterResult, searchResult]) => {
+    combineLatest([this.searchObs, this.filterObs]).subscribe(([searchResult, filterResult]) => {
       this.products$.next(filterResult.filter(value => searchResult.includes(value)));
     });
   }

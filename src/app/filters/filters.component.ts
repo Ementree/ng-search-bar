@@ -1,6 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ProductService} from '../product.service';
-import {FilterSchema} from '../filterSchema';
 
 @Component({
   selector: 'app-filters',
@@ -22,12 +21,15 @@ export class FiltersComponent implements OnInit {
       return x;
     });
     this.productService.filters.next(filters);
-    console.log('change option');
   }
 
   getSelectedOption(key: string): string{
     const filter = this.productService.filters.getValue()
       .filter(x => x.key === key)[0];
     return filter.selectedOption;
+  }
+
+  resetFilters() {
+    this.productService.resetFilters();
   }
 }

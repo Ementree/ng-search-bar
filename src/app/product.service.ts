@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, combineLatest, forkJoin, Observable, of} from 'rxjs';
+import {BehaviorSubject, Observable, of} from 'rxjs';
 import {Product} from './product';
 import {FilterSchema} from './filterSchema';
 
@@ -32,12 +32,20 @@ export class ProductService {
       description: 'desc',
       id: 2,
       price: '1166'
+    },
+    {
+      name: 'Text',
+      rate: '5',
+      description: 'desc',
+      id: 3,
+      price: '166'
     }
   ];
   public searchStream: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public filters: BehaviorSubject<FilterSchema[]> = new BehaviorSubject<FilterSchema[]>(this.getFilters());
 
   constructor() {
+    this.setFiltersWithEmptyValue();
   }
 
   getFilters(): FilterSchema[] {
@@ -60,7 +68,6 @@ export class ProductService {
     const selectedValues = filters
       .filter(x => x.selectedOption !== '')
       .map(x => new SelectedOption(x.name, x.selectedOption));
-    console.log(selectedValues);
     return of(this.productArr
       .filter(product => {
           const res = selectedValues.map(selected => {
@@ -75,5 +82,14 @@ export class ProductService {
     this.searchStream.next(query);
     return of(this.productArr
       .filter(x => x.name.toLowerCase().startsWith(query.toLowerCase())));
+  }
+
+  resetFilters() {
+    this.setFiltersWithEmptyValue();
+  }
+
+  private setFiltersWithEmptyValue() {
+    this.searchStream.next('');
+    this.filters.next(this.getFilters());
   }
 }
