@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, forkJoin, Observable, of} from 'rxjs';
+import {BehaviorSubject, combineLatest, forkJoin, Observable, of} from 'rxjs';
 import {Product} from './product';
 import {FilterSchema} from './filterSchema';
 
@@ -35,7 +35,7 @@ export class ProductService {
   ];
   public searchStream: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public filters: BehaviorSubject<FilterSchema[]> = new BehaviorSubject<FilterSchema[]>(this.getFilters());
-
+  // public result: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>();
   constructor() {
   }
   setFilters(){
@@ -79,6 +79,6 @@ export class ProductService {
   }
 
   aggregate() {
-
+// combineLatest([this.searchStream, this.filters], )
   }
 }
